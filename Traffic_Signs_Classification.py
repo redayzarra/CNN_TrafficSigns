@@ -98,14 +98,24 @@ X_train, y_train = shuffle(X_train, y_train) # Used the shuffle function to reas
 # Converting images to Grayscale
 X_train_gray = np.sum(X_train / 3, axis = 3, keepdims = True) # Use numpy to average the pixels to get the grayscale version of the image. We will simply add the pixel values from the three color channels (Red, Green, and Blue) and then divide them by 3. 
 X_train_gray.shape # The depth of the features training set is no longer 3, its now 1. This means the images are now grayscale
-plt.imshow(X_train_gray[i]) # The network will now learn from this "grayscale" image which uses much less processing power because the image depth is reduced to 1
+plt.imshow(X_train_gray[i].squeeze(), cmap = 'gray') # The network will now learn from this "grayscale" image which uses much less processing power because the image depth is reduced to 1
 
 X_validation_gray = np.sum(X_validation/3, axis = 3, keepdims = True)
 X_validation_gray.shape # Averaging the RGB values to reduce the depth from 3 to 1 for the feature's validation set
-plt.imshow(X_validation_gray[i]) # Grayscale sample image from the feature's validation set
+plt.imshow(X_validation_gray[i].squeeze(), cmap = 'gray') # Grayscale sample image from the feature's validation set
 
 X_test_gray = np.sum(X_test/3, axis = 3, keepdims = True)
 X_test_gray.shape 
-plt.imshow(X_test_gray[i])
+plt.imshow(X_test_gray[i].squeeze(), cmap = 'gray')
 
-# Restrict the pixel value scale for each dataset, aka normalization
+# Restrict the pixel value scale for each dataset, aka normalization. Normalization is important because we want all our pixels in a similar range so the weight at one part of the image is not a lot more than the weight at another part of an image.
+X_train_gray_norm = (X_train_gray - 128) / 128 # There are many kinds of normalization methods. This one works by subtracting the image pixels by 128 because we want to center the data from its range of 0 to 255 (256 total, so half is 128). We then divide by 128 to put all the data between -1 and 1.
+# X_train_gray_norm ~ confirms that all the pixel values are between -1 and 1
+plt.imshow(X_train_gray_norm[i].squeeze(), cmap = 'gray') # The .squeeze() method gets rid of the 1 (last number) at the end of our tuple when we call the .shape method. This is because the 1 represented the depth of each image, but because our images are now grayscale we no longer need to include that. We are also specifying that we want our colormap, or cmap, to be in grayscale so we give it the 'gray' value.
+
+
+X_validation_gray_norm = (X_validation_gray - 128) / 128
+plt.imshow(X_validation_gray_norm[i].squeeze(), cmap = 'gray')
+
+X_test_gray_norm = (X_test_gray - 128) / 128
+plt.imshow(X_test_gray_norm[i].squeeze(), cmap = 'gray')
