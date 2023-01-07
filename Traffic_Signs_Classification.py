@@ -136,6 +136,7 @@ For our first step, we will take our input image (which is 32 x 32 x 1) and appl
 6 filters that are 5 x 5 with input depth of 3. The output of these filters will be 
 28 x 28 x 6 after the image has been processed through it. This is because there is 
 an equation the ouptut has to follow that applies when we run images to filters: 
+
                         Output = ((Input - Filter) + 1) / Stride
 the equation returns: 
                         Output = ((32 - 5) + 1) / 1 = 28
@@ -151,11 +152,85 @@ six filters the output of the image after the filters have been applied becomes
 28 x 28 x 6.
 
 The second step is to apply a ReLU function on the output. The rectified linear 
-unit, or ReLU, function simply takes in input and converts all negative numbers 
-into 0's while maintaining all the positive numbers.
+unit, or ReLU, an activation function simply takes in input and converts all 
+negative numbers into 0's while maintaining all the positive numbers.
 
 Finally, a pooling layer (or subsampling layer) will be applied to simply shrink 
 the feature map by 2. This means the output depth will remain the same (the output
 from the filters is still maintained), however the size of the output will be 
 divided from 28 to 14. The result of the pooling layer is 14 x 14 x 6.
+"""
+
+
+
+"""
+A second convolutional layer is applied which works with the output of the last
+layer. For our second step, we will simply repeat the process above but implementing 
+some slight changes. We will take the output from the previous convolutional layer, 
+which was 14 x 14 x 6 and then apply 16 filters. The filters will follow the same 
+equation from above:
+
+                        Output = ((14-5) + 1) / 1 = 10
+
+The stride is 1px (kernel is shifting by 1px each time) and because we have applied 
+16 filters, the output of the filters will be 10 x 10 x 16.
+
+Similar to the previous layer, we apply a ReLU funciton which will simply convert 
+all the negative values into 0's.
+
+A subsampling layer aka pooling layer is applied to reduce the size of the images 
+by 2. Meaning the images are shrunk down from 10 x 10 to 5 x 5, however the output 
+depth from the filters has not changed. This means that the output after the second 
+convolutional layer is 5 x 5 x 16.
+"""
+
+
+
+"""
+The flatten layer is simply used to convert our matrix of data, which in our case 
+is 5 x 5 x 16 into a single array so 400 x 1. This array basically stores the 
+individual pixels of an image in a single line. It is important to flatten our data 
+because the fully connected (dense) layers expects a one-dimensional vector data 
+as input.
+"""
+
+"""
+A fully connected layer or a dense layer is simply a layer that connects all of the
+nodes from it's layer to all of the nodes in the next layer. Dense layers are often
+used at the end of neural networks because they allow the network to learn the 
+complex mapping from the input to the output data. They function by receiving 
+input from all of the nodes and then multiplying weights and adding biases to each
+input value. These values are then passed down to the next dense layer which adds 
+its own weights and biases. The network learns to control these weights and biases
+so that it can eventually make highly accurate predictions.
+
+In our case, the first dense layer will have 400 nodes which will each be assigned 
+a pixel from our 400 x 1 flattened vector. The nodes will then connect to a second 
+layer which only has 120 nodes (or neurons). The dense layer will then apply a ReLU 
+activation function to the output before sending it off to the next layer.
+"""
+
+
+"""
+The second dense layer is similar to the first. It will take the input from the 
+120 nodes from the previous layer, manipulate the input with its own weights & 
+biases, and then pass on the output to the next layer.
+
+The second dense layer will have 120 nodes to recieve the input from the previous 
+layer and then it's output will be passed on to another dense layer with 80 nodes. 
+The dense layer will then apply a ReLU activation function to the output before 
+sending it off to the next layer.
+"""
+
+
+"""
+The third and final dense layer will recieve input from the previous layer with its 
+80 nodes. This layer will be responsible for manipulating the input recieved and 
+sending it to the final output layer. The dense layer will then apply a ReLU 
+activation function to the output before sending it off to the output layer.
+
+Our output layer needs to have nodes equal to the number of classes. In the MNIST 
+experiment, Yann LeCun only had 10 classes because he was trying to recognize the 
+handwritten digits 0 to 9. However, we are trying to classify 43 different kinds of 
+signs so our output layer needs to have 43 nodes. One node for each class.
 """
