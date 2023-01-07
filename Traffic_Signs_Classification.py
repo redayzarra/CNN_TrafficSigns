@@ -61,3 +61,21 @@ y_validation.shape
 
 X_test.shape
 y_test.shape
+
+
+"""
+Using matplotlib to display a randomly choosen image and see if it matches with its 
+label, just to see what the images are and how the network will be classifying them. 
+Each type of sign has its own class which will identify the type of sign to the 
+model. 
+"""
+i = 23 # The index of the image we want to look at, arbitrarily chose 23
+
+plt.imshow(X_train[i]) # Using matplotlib's .imshow method to show an image from the features training set at the index of 23
+y_train[i] # Also show us the corresponding label from the same index in the label's training set - the label tells us that the sign is a "End of No Passing"
+
+plt.imshow(X_validation[i]) # Verifying images for the validation dataset
+y_validation[i]
+
+plt.imshwo(X_test[i]) # Verifying images for the testing dataset
+y_test[i]
