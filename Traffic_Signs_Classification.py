@@ -79,3 +79,33 @@ y_validation[i]
 
 plt.imshwo(X_test[i]) # Verifying images for the testing dataset
 y_test[i]
+
+
+"""
+Preparing the data by shaving off things we don't need in the data. Such as 
+transforming the images from RBG to grayscale (changes the depth from 3 to 1). I 
+will also perform data normalization, where instead of using the pixel values 
+ranging from 0 to 255, we can lower the range to use a more restricted range of
+pixel values. The data needs to also be shuffled so the images do not get trained
+in a certain order, we do not want the network to learn the order of these images.
+We want to make it as hard as possible for the network to learn, which is why we
+use low-quality images, more restricted pixel range, and grayscale images. 
+"""
+# Shuffling the dataset
+from sklearn.utils import shuffle # Importing the shuffle function from the sci-kit learn library to shuffle the dataset first
+X_train, y_train = shuffle(X_train, y_train) # Used the shuffle function to reassign the variables of X_train and y_train into a different order, however the labels still correspond to the correct images because the shuffle function reorders them the same way
+
+# Converting images to Grayscale
+X_train_gray = np.sum(X_train / 3, axis = 3, keepdims = True) # Use numpy to average the pixels to get the grayscale version of the image. We will simply add the pixel values from the three color channels (Red, Green, and Blue) and then divide them by 3. 
+X_train_gray.shape # The depth of the features training set is no longer 3, its now 1. This means the images are now grayscale
+plt.imshow(X_train_gray[i]) # The network will now learn from this "grayscale" image which uses much less processing power because the image depth is reduced to 1
+
+X_validation_gray = np.sum(X_validation/3, axis = 3, keepdims = True)
+X_validation_gray.shape # Averaging the RGB values to reduce the depth from 3 to 1 for the feature's validation set
+plt.imshow(X_validation_gray[i]) # Grayscale sample image from the feature's validation set
+
+X_test_gray = np.sum(X_test/3, axis = 3, keepdims = True)
+X_test_gray.shape 
+plt.imshow(X_test_gray[i])
+
+# Restrict the pixel value scale for each dataset, aka normalization
