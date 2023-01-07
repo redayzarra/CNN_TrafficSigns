@@ -51,3 +51,13 @@ X_validation, y_validation = valid['features'], valid['labels']
 
 # Assigning the features of the testing set as X_test and the dependent variable (labels) as y_test
 X_test, y_test = test['features'], test['labels']
+
+# Checking the dimensions of the training set
+X_train.shape # Gives us an output of a four element tuple. The first number is the quantity of images, the second is the width of image in pixels, the third is the height of the image, and the last number the depth - in this case the 3 tells us that the images are colored since they are being multiplied for both Red, Green, and Blue
+y_train.shape # Gives us a tuple of one element, which is a label for each image in the training set
+
+X_validation.shape
+y_validation.shape
+
+X_test.shape
+y_test.shape
