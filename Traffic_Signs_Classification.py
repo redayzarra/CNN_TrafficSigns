@@ -1,7 +1,7 @@
 """
 Traffic Signs Classification Project - LeNet Deep Network
 
-This project utilizes the LeNet deep network architecture to classify 42 different 
+This project utilizes the LeNet deep network architecture to classify 43 different 
 types of traffic signs. LeNet refers to a convolutional neural network that can be 
 used for computer vision and classification models. This project showcases a 
 step-by-step implementation of the model as well as in-depth notes to customize the 
@@ -113,9 +113,49 @@ X_train_gray_norm = (X_train_gray - 128) / 128 # There are many kinds of normali
 # X_train_gray_norm ~ confirms that all the pixel values are between -1 and 1
 plt.imshow(X_train_gray_norm[i].squeeze(), cmap = 'gray') # The .squeeze() method gets rid of the 1 (last number) at the end of our tuple when we call the .shape method. This is because the 1 represented the depth of each image, but because our images are now grayscale we no longer need to include that. We are also specifying that we want our colormap, or cmap, to be in grayscale so we give it the 'gray' value.
 
-
 X_validation_gray_norm = (X_validation_gray - 128) / 128
 plt.imshow(X_validation_gray_norm[i].squeeze(), cmap = 'gray')
 
 X_test_gray_norm = (X_test_gray - 128) / 128
 plt.imshow(X_test_gray_norm[i].squeeze(), cmap = 'gray')
+
+
+"""
+To train the model we will implement six fundamental steps that will ensure we have
+correctly implemented the LeNet-5 architecture. The original LeNet-5 architecture
+was proposed by Yann LeCun and he developed it to recognize handwritten numbers. 
+The dataset with the handwritten numbers is called the MNIST dataset and we will
+be working with that in some different project. 
+
+For our use, we will need to cutomize the LeNet architecture a bit because we have
+more classes (or types of things) to differentiate from. Yann LeCun had 10 classes 
+which were numbers ranging from 0 to 1, while we have over 43 different traffic 
+signs. 
+
+For our first step, we will take our input image (which is 32 x 32 x 1) and apply
+6 filters that are 5 x 5 with input depth of 3. The output of these filters will be 
+28 x 28 x 6 after the image has been processed through it. This is because there is 
+an equation the ouptut has to follow that applies when we run images to filters: 
+                        Output = ((Input - Filter) + 1) / Stride
+the equation returns: 
+                        Output = ((32 - 5) + 1) / 1 = 28
+
+The stride is simply how much the kernel is shifted by each time when it passes over 
+the image. The kernel is essentially a feature map that scans the image by 
+essentially gliding over it. The stride is how much the kernel shifts, so a stride 
+of 1 means that the kernel is moving 1px at a time which is slow. While a stride of 
+2 means its moving 2px each time. 
+
+The output depth is determined by the number of filters we apply, since we applied
+six filters the output of the image after the filters have been applied becomes
+28 x 28 x 6.
+
+The second step is to apply a ReLU function on the output. The rectified linear 
+unit, or ReLU, function simply takes in input and converts all negative numbers 
+into 0's while maintaining all the positive numbers.
+
+Finally, a pooling layer (or subsampling layer) will be applied to simply shrink 
+the feature map by 2. This means the output depth will remain the same (the output
+from the filters is still maintained), however the size of the output will be 
+divided from 28 to 14. The result of the pooling layer is 14 x 14 x 6.
+"""
