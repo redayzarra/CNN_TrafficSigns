@@ -289,7 +289,7 @@ This class has a number of parameters that we will need to address for the netwo
 to train effeciently, such as: features training dataset, dependent variable 
 training dataset, batch_size, nb_epoch, verbose, validation_data.
 """
-cnn_model.fit(X_train_gray_norm, # The first parameter of the .fit method is the features training dataset. Here we will just input the features training data which are the images that we prepared by shuffling, grayscaling, and normalizing. The images are stored in the variable X_train_gray_norm
+history = cnn_model.fit(X_train_gray_norm, # The first parameter of the .fit method is the features training dataset. Here we will just input the features training data which are the images that we prepared by shuffling, grayscaling, and normalizing. The images are stored in the variable X_train_gray_norm
               y_train, # The second parameter is the dependent varible training dataset (what we want to predict). We can just input the dependent variable training data which are the labels that correspond to every image in the features training data. These labels are stored in the variable y_train
               batch_size = 500, # The third parameter is the batch_size with just means the number of images that will be fed into the network at once.
               epochs = 5, # The fourth parameter is the epochs which means the number of epochs or a single pass through the entire dataset. At the end of each epoch, the model's performance is evaluated and recorded. Another epoch starts and the optimizer aims to perform better each time using the evaluations.
@@ -310,6 +310,17 @@ print("Test Accuracy: {}%".format(round(score[1] * 100, 2)))
 
 
 """
-Visualizing accuracy requires collecting the accuracy and losses data from both 
-the 
+Extracting the values from the model so we can create accurate, clean graphs. We 
+can do this by accessing the dictionary objects created by the cnn_model with the 
+.history.keys() method.
 """
+# Extracting Values from the Model
+history.history.keys() # The history variable is calling on the .history method which produces a dictionary containing the keys: loss, accuracy, val_loss, val_accuracy which store values about the all the accuracy and losses for training and validation data for every epoch.
+
+accuracy = history.history['accuracy'] # Extracting the accuracy values from the history dictionary object. Storing the values in the accuracy variable.
+# Extracting the loss, validation loss, and validation accuracy values from the history dictionary object.
+loss = history.history['loss'] 
+valid_loss = history.history['val_loss']
+valid_accuracy = history.history['val_accuracy']
+
+epochs = range(1, len(accuracy) + 1) # This allows us to create a range starting from 1 to the number of epochs.
