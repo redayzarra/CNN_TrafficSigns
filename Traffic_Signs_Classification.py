@@ -324,3 +324,78 @@ valid_loss = history.history['val_loss']
 valid_accuracy = history.history['val_accuracy']
 
 epochs = range(1, len(accuracy) + 1) # This allows us to create a range starting from 1 to the number of epochs.
+
+
+"""
+Visualizing the model by plotting the data values extracted and creating scatter 
+plots to better understand the performance of our network. We want to observe the 
+accuracy and losses for both the training and validation datasets so we can make 
+the model more accurate (with more epochs) or avoid overfitting (reducing number 
+of epochs).
+"""
+# Training Accuracy
+plt.scatter(epochs, accuracy, color = 'black', sizes = [5])
+plt.plot(epochs, accuracy, 'blue')
+plt.title('Training Accuracy over Epochs')
+plt.xlabel('Epochs')
+plt.ylabel('Accuracy')
+
+plt.show() # The graph above is exactly what we should be expecting. The network learns fast in the beginning and then the growth in accuracy slows down. I did not want the network to overfit so I allowed it to run at 45 epochs.
+
+# Training Loss
+plt.scatter(epochs, loss, color = 'black', sizes = [5])
+plt.plot(epochs, loss, color = 'red')
+plt.title('Training Loss over Epochs')
+plt.xlabel('Epochs')
+plt.ylabel('Loss')
+
+plt.show() # Exactly what we shold be looking at. The loss is the measure of how well the model is making correct predictions, basically an error rate. The network is minimizing loss through loss functions (we used categorical cross-entropy which rewards the network when it produces a high probability for the correct label).
+
+# Validation Accuracy
+plt.scatter(epochs, valid_accuracy, color = 'black', sizes = [5])
+plt.plot(epochs, valid_accuracy, color = 'green')
+plt.title('Validation Accuracy over Epochs')
+plt.xlabel('Epochs')
+plt.ylabel('Accuracy')
+
+plt.show() # The validation accuracy closely resembles the training accuracy plot as it starts off with high accuracy growth until it eventually starts slowing down. Unlike the training curve, it is more volatile and is most likely going to bounce around in the high 80's
+
+# Validation Loss
+plt.scatter(epochs, valid_loss, color = 'black', sizes = [5])
+plt.plot(epochs, valid_loss, color = 'orange')
+plt.title('Validation Loss over Epochs')
+plt.xlabel('Epochs')
+plt.ylabel('Loss')
+
+plt.show() # Unfortunately, our model has symptoms of overfitting. The validation loss is decreasing fast in the beginning which is good. However, the validaiton loss starts to increase at the end which means the network is overfitting. To fix this issue, I would most likely decrease the number of epochs down to between 20 and 30 epochs, because the validation loss is at its most stable low during that range.
+
+# Comparing Training and Validation Accuracy
+plt.plot(epochs, accuracy, color = 'blue')
+plt.plot(epochs, valid_accuracy, color = 'red')
+
+plt.scatter(epochs, accuracy, color = 'black', sizes = [10])
+plt.scatter(epochs, valid_accuracy, color = 'black', sizes = [10])
+
+
+plt.title('Training vs. Validation Accuracy')
+plt.xlabel('Epochs')
+plt.ylabel('Accuracy')
+
+plt.legend(['Training', 'Validation'])
+
+plt.show()
+
+# Comparing Training and Validaion Losses
+plt.plot(epochs, loss, color = 'green')
+plt.plot(epochs, valid_loss, color = 'orange')
+
+plt.scatter(epochs, loss, color = 'black', sizes = [10])
+plt.scatter(epochs, valid_loss, color = 'black', sizes = [10])
+
+plt.title('Training vs. Validation Loss')
+plt.xlabel('Epochs')
+plt.ylabel('Loss')
+
+plt.legend(['Training', 'Validation'])
+
+plt.show()
