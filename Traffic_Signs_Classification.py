@@ -282,3 +282,16 @@ number of correct predictions divided by the total predictions.
 # Compile the model
 cnn_model.compile(loss = 'sparse_categorical_crossentropy', optimizer = Adam(learning_rate = 0.001), metrics = ['accuracy'])
 
+
+"""
+Finally, to train the model we will use the .fit method from the Sequential class. 
+This class has a number of parameters that we will need to address for the network 
+to train effeciently, such as: features training dataset, dependent variable 
+training dataset, batch_size, nb_epoch, verbose, validation_data.
+"""
+cnn_model.fit(X_train_gray_norm, # The first parameter of the .fit method is the features training dataset. Here we will just input the features training data which are the images that we prepared by shuffling, grayscaling, and normalizing. The images are stored in the variable X_train_gray_norm
+              y_train, # The second parameter is the dependent varible training dataset (what we want to predict). We can just input the dependent variable training data which are the labels that correspond to every image in the features training data. These labels are stored in the variable y_train
+              batch_size = 500, # The third parameter is the batch_size with just means the number of images that will be fed into the network at once.
+              epochs = 5, # The fourth parameter is the epochs which means the number of epochs or a single pass through the entire dataset. At the end of each epoch, the model's performance is evaluated and recorded. Another epoch starts and the optimizer aims to perform better each time using the evaluations.
+              verbose = 1, # The fifth parameter is verbose which just means how much information the program shows us during the training process. Setting the value to 1 will show us all the background information, and the value will 0 will show us nothing.
+              validation_data = (X_validation_gray_norm, y_validation)) # The sixth parameter is the validation_data. This is the dataset we will use to avoid overfitting by showing the network validation data every epoch so that the network is not focusing on the details of the training data. The validation images are stored in the variable X_validation_gray_norm and the validation labels are stored in the variable y_validation
