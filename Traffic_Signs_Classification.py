@@ -399,3 +399,22 @@ plt.ylabel('Loss')
 plt.legend(['Training', 'Validation'])
 
 plt.show()
+
+
+"""
+Creating a confusion matrix, which is a table that contains cases where the network
+guessed correctly and incorrectly.
+"""
+# Extracting the Predicted Classes
+predicted_x = cnn_model.predict(X_test_gray_norm) # The .predict method of the Sequential class allows us to extract the predicted values and store them in predicted_x
+classes_x = np.argmax(predicted_x, axis = 1) # The predicted_x stores the probability distribution of each image, so we use the .argmax to get the highest proabability the network thinks the label should be. The .argmax method from the numpy class will return the index of the maximum value in the array. The axis class is just specifying the dimensions of the array (ours in a 1D array).
+
+y_true = y_test # Just creating a copy of the testing data labels and storing them in y_true
+
+# Building the Confusion Matrix
+from sklearn.metrics import confusion_matrix # Importing the confusion_matrix function from sci-kit learn
+
+cm = confusion_matrix(y_true, classes_x) # Initiate the confusion matrix with the function confusion_matrix and give the correct labels and the predicted labels as parameters
+
+plt.figure(figsize = (25, 25)) # Configure the size of the figure to be larger so we can see the individual labels and evaluate our data
+sns.heatmap(cm, annot = True) # Use the .heatmap method from Seaborn to produce a heatmap of the confusion matrix. The heatmap shows the classes on the y-axis and the individual numbers on the x-axis are the number of samples it misclassified.
