@@ -241,6 +241,8 @@ layer and then it's output will be passed on to another dense layer with 84 node
 The dense layer will then apply a ReLU activation function to the output before 
 sending it off to the next layer.
 """
+# Building the second Dense layer
+cnn_model.add(Dense(units = 84, activation = 'relu'))
 
 
 """
@@ -254,3 +256,29 @@ experiment, Yann LeCun only had 10 classes because he was trying to recognize th
 handwritten digits 0 to 9. However, we are trying to classify 43 different kinds of 
 signs so our output layer needs to have 43 nodes. One node for each class.
 """
+# Building the last Dense layer
+cnn_model.add(Dense(units = 43, activation = 'softmax')) # The activation function of the last layer can't use ReLU because the output needs to be categorical (ReLU just gives us numbers that aren't negatives). The softmax activation function takes in all the input and squashes it between 0 and 1, meaning the final values of all the numbers add up to 1. These numbers between 0 and 1 act as probability values (if you multiply by 100 you get the percentage) which is perfect for our project.
+
+
+"""
+To train the model, we will first have to compile it. We will use the .compile 
+method from the Sequential class. The method accepts the following classes which
+are used to compile and train the model effeciently: loss, optimizer, and metrics
+
+The loss parameter allows us to specify what kind of loss function we want to use 
+to better train the model. The categorical cross entropy loss function measures the 
+difference between the true probability distribution and predicted probability 
+distribution.
+
+The optimizer parameter will specify what kind of optimizer we want to use. For my 
+project, I want to use the Adam optimizer. The Adam optimizer takes in the parameter 
+learning_rate which is set to 0.001 - this is the step size at which the optimizer 
+makes updates to the parameters (weights and biases).
+
+The metrics parameter lets us specify how we want to evaluate the model. The 
+accuracy metric allows us to evaluate the performance of the model based on the 
+number of correct predictions divided by the total predictions.
+"""
+# Compile the model
+cnn_model.compile(loss = 'sparse_categorical_crossentropy', optimizer = Adam(learning_rate = 0.001), metrics = ['accuracy'])
+
