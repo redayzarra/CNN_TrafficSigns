@@ -295,3 +295,21 @@ cnn_model.fit(X_train_gray_norm, # The first parameter of the .fit method is the
               epochs = 5, # The fourth parameter is the epochs which means the number of epochs or a single pass through the entire dataset. At the end of each epoch, the model's performance is evaluated and recorded. Another epoch starts and the optimizer aims to perform better each time using the evaluations.
               verbose = 1, # The fifth parameter is verbose which just means how much information the program shows us during the training process. Setting the value to 1 will show us all the background information, and the value will 0 will show us nothing.
               validation_data = (X_validation_gray_norm, y_validation)) # The sixth parameter is the validation_data. This is the dataset we will use to avoid overfitting by showing the network validation data every epoch so that the network is not focusing on the details of the training data. The validation images are stored in the variable X_validation_gray_norm and the validation labels are stored in the variable y_validation
+
+
+"""
+Now that we have trained our model, it needs to be evaluated so we know how well it 
+performs in the real world. This can be done by showing the model the testing 
+dataset which it has not seen before.
+"""
+# Testing the Model
+score = cnn_model.evaluate(X_test_gray_norm, y_test) # Using the .evaluate method from the Sequential class that allows us to evaluate the model on the testing sets. The features testing set or the testing images are stored in the variable X_test_gray_norm and the labels are stored in y_test.
+
+# Printing the test accuracy
+print("Test Accuracy: {}%".format(round(score[1] * 100, 2)))
+
+
+"""
+Visualizing accuracy requires collecting the accuracy and losses data from both 
+the 
+"""
