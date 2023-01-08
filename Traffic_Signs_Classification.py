@@ -160,7 +160,18 @@ the feature map by 2. This means the output depth will remain the same (the outp
 from the filters is still maintained), however the size of the output will be 
 divided from 28 to 14. The result of the pooling layer is 14 x 14 x 6.
 """
+# Importing the Keras classes
+from keras.models import Sequential # We are going to use Keras which will sit on top of TensorFlow and help us build our network. From the keras.models module we will import the Sequential class which will allow us to build our network in a sequential fashion (building it one step at a time).
+from keras.layers import Conv2D, MaxPooling2D, AveragePooling2D # The Conv2D class will be used to perform our convolutions in the convolutional layers. The MaxPooling2D class is going to help us in the downsampling layers by selecting the largest pixel value in the pooling window. AveragePooling2D will also perform downsampling but it wil take the average of the pixels in the pooling window. Dense class helps build the dense layers. The Flatten class will help us flatten the matrix down to a vector of pixels. The Dropout class is implements a regularization technique that reduces overfitting by forcing some of the neurons to have an input of zero - which reduces dependency on any one feature.
+from keras.optimizers import Adam # The Adam class is optimization algorithm used to update the weights of the neural network. Adam maintains a running average of the gradients and uses them to update the model.
+from keras.callbacks import TensorBoard # We are basically using TensorFlow as the backend of the Keras API
 
+# Applying the First Convolution
+cnn_model = Sequential() # Create the Sequential class instance object
+cnn_model.add(Conv2D(filters = 6, kernel_size = (5,5), activation = 'relu', input_shape = (32, 32, 1))) # Use the Sequential class .add method to start building. The Conv2D is class is then called to build the first convolution layer, it takes 4 parameters. The first parameter is the number of filters which we know is 6. The kernel_size is the size of the filters which we know is 5 x 5 so we input the tuple (5,5). We specify the activation function as 'relu' to ensure ReLU is used. The final parameter is the input shape which will be the shape of the image so the tuple (32, 32, 1)
+
+# Applying Pooling
+cnn_model.add(AveragePooling2D()) # Using the .add method from the Sequential class, call the AveragePooling2D class which will automatically apply average downsampling (average pixel value is chosen from pooling window) to our output. This means our output will go from (28, 28, 6) to (14, 14, 6). It will divide the image shape by 2 but will not affect the output depth.
 
 
 """
@@ -183,7 +194,11 @@ by 2. Meaning the images are shrunk down from 10 x 10 to 5 x 5, however the outp
 depth from the filters has not changed. This means that the output after the second 
 convolutional layer is 5 x 5 x 16.
 """
+# Applying the Second Convolution
+cnn_model.add(Conv2D(filters = 16, kernel_size = (5,5), activation = 'relu')) # Similar to the last filter except we no longer have to specify the input shape because the model already accepted the input from the last layer
 
+# Applying Pooling
+cnn_model.add(AveragePooling2D())
 
 
 """
@@ -193,6 +208,8 @@ individual pixels of an image in a single line. It is important to flatten our d
 because the fully connected (dense) layers expects a one-dimensional vector data 
 as input.
 """
+
+
 
 """
 A fully connected layer or a dense layer is simply a layer that connects all of the
