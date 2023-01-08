@@ -162,7 +162,7 @@ divided from 28 to 14. The result of the pooling layer is 14 x 14 x 6.
 """
 # Importing the Keras classes
 from keras.models import Sequential # We are going to use Keras which will sit on top of TensorFlow and help us build our network. From the keras.models module we will import the Sequential class which will allow us to build our network in a sequential fashion (building it one step at a time).
-from keras.layers import Conv2D, MaxPooling2D, AveragePooling2D # The Conv2D class will be used to perform our convolutions in the convolutional layers. The MaxPooling2D class is going to help us in the downsampling layers by selecting the largest pixel value in the pooling window. AveragePooling2D will also perform downsampling but it wil take the average of the pixels in the pooling window. Dense class helps build the dense layers. The Flatten class will help us flatten the matrix down to a vector of pixels. The Dropout class is implements a regularization technique that reduces overfitting by forcing some of the neurons to have an input of zero - which reduces dependency on any one feature.
+from keras.layers import Conv2D, MaxPooling2D, AveragePooling2D, Dense, Flatten, Dropout # The Conv2D class will be used to perform our convolutions in the convolutional layers. The MaxPooling2D class is going to help us in the downsampling layers by selecting the largest pixel value in the pooling window. AveragePooling2D will also perform downsampling but it wil take the average of the pixels in the pooling window. Dense class helps build the dense layers. The Flatten class will help us flatten the matrix down to a vector of pixels. The Dropout class is implements a regularization technique that reduces overfitting by forcing some of the neurons to have an input of zero - which reduces dependency on any one feature.
 from keras.optimizers import Adam # The Adam class is optimization algorithm used to update the weights of the neural network. Adam maintains a running average of the gradients and uses them to update the model.
 from keras.callbacks import TensorBoard # We are basically using TensorFlow as the backend of the Keras API
 
@@ -208,7 +208,8 @@ individual pixels of an image in a single line. It is important to flatten our d
 because the fully connected (dense) layers expects a one-dimensional vector data 
 as input.
 """
-
+# Flatten the Output
+cnn_model.add(Flatten()) # Call the Flatten class to automatically flatten the output from the last convolutional layer into a vector of 400 x 1 containing pixels
 
 
 """
@@ -226,6 +227,8 @@ a pixel from our 400 x 1 flattened vector. The nodes will then connect to a seco
 layer which only has 120 nodes (or neurons). The dense layer will then apply a ReLU 
 activation function to the output before sending it off to the next layer.
 """
+# Building the first Dense layer
+cnn_model.add(Dense(units = 120, activation = 'relu')) # Use the .add method from the Sequential class, and then call the Dense class. This class takes the parameters units which is the number of nodes it needs to connect to for the next layer, and then the activation function which is ReLU
 
 
 """
@@ -234,7 +237,7 @@ The second dense layer is similar to the first. It will take the input from the
 biases, and then pass on the output to the next layer.
 
 The second dense layer will have 120 nodes to recieve the input from the previous 
-layer and then it's output will be passed on to another dense layer with 80 nodes. 
+layer and then it's output will be passed on to another dense layer with 84 nodes. 
 The dense layer will then apply a ReLU activation function to the output before 
 sending it off to the next layer.
 """
@@ -242,7 +245,7 @@ sending it off to the next layer.
 
 """
 The third and final dense layer will recieve input from the previous layer with its 
-80 nodes. This layer will be responsible for manipulating the input recieved and 
+84 nodes. This layer will be responsible for manipulating the input recieved and 
 sending it to the final output layer. The dense layer will then apply a ReLU 
 activation function to the output before sending it off to the output layer.
 
