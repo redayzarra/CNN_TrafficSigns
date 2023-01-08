@@ -418,3 +418,20 @@ cm = confusion_matrix(y_true, classes_x) # Initiate the confusion matrix with th
 
 plt.figure(figsize = (25, 25)) # Configure the size of the figure to be larger so we can see the individual labels and evaluate our data
 sns.heatmap(cm, annot = True) # Use the .heatmap method from Seaborn to produce a heatmap of the confusion matrix. The heatmap shows the classes on the y-axis and the individual numbers on the x-axis are the number of samples it misclassified.
+
+
+"""
+Plotting a sample of 25 images so we can see the predicted class and the true class
+label side by side. We can do this by using subplots to display all the plots in
+one figure.
+"""
+length = 5
+width = 5
+
+fig, axes = plt.subplots(length, width, figsize = (25, 25))
+axes = axes.ravel()
+
+for i in np.arange(0, length * width):
+  axes[i].imshow(X_test[i])
+  axes[i].set_title('Predictions = {}, True = {}'.format(classes_x[i], y_true[i]))
+  axes[i].axis('off')
